@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <meta name="description" content="Application and query forms"> 
+  <meta name="author" content="Rofhiwa Sethako"> 
+  <meta name="keywords" content="HTML, CSS, JavaScript"> 
+<title>Online Application</title>
+<link rel="stylesheet" href="css/programs.css">
+</head>
+<body>
+<nav class="navbar">
+<div class="logo">
+<img src="Images/Logo.png" alt="Pathways Logo" class="main-logo"/>
+</div>
+<div class="hamburger" aria-label="Open menu" role="button" tabindex="0">
+<span></span>
+<span></span>
+<span></span>
+</div>
+<div class="nav-links">
+<a href="Home.html">Home Page</a>
+<a href="Programs.html">Programs Page</a>
+<a href="Gallery.html">Gallery</a>
+<a href="Blog.html">Blog Page</a>
+<a href="about.html">About Us</a>
+<a href="Contact.html">Contact Us</a>
+</div>
+</nav>
+<main>
+<h1>JOB SHADOWING APPLICATION</h1>
+<section class="program-box">
+<h2>Application Form</h2>
+<p>Please fill in the details below</p>
+<form id="applicationForm">
+<label for="full_name">Full Name</label>
+<input id="full_name" name="full_name" type="text" placeholder="Full Name" required>
+<label for="email">Email</label>
+<input id="email" name="email" type="email" placeholder="Email" required>
+<label for="phone">Phone</label>
+<input id="phone" name="phone" type="tel" placeholder="Phone number" required>
+<label for="interest">Field of Interest</label>
+<select id="interest" name="interest" required>
+<option value="">-- Select Field --</option>
+<option value="IT">Information Technology</option>
+<option value="Business">Business &amp; Finance</option>
+<option value="Health">Health Science</option>
+<option value="Art">Art &amp; Media</option>
+</select>
+<div class="form-actions">
+<input type="submit" value="Apply Now" class="apply-btn">
+<input type="reset" value="Clear Form" class="apply-btn alt">
+</div>
+</form>
+</section>
+<section class="program-box">
+<h2>Enquiry Form</h2>
+<p>Please fill in your details below.</p>
+<form id="enquiryForm" action="/submit-enquiry" method="post" enctype="multipart/form-data">
+
+<label for="e_name">Full Name</label>
+<input id="e_name" name="full_name" type="text" placeholder="Full Name" required>
+
+<label for="e_email">Email</label>
+<input id="e_email" name="email" type="email" placeholder="Email" required>
+
+<label for="e_phone">Phone</label>
+<input id="e_phone" name="phone" type="tel" placeholder="Phone">
+
+<label for="company">Company</label>
+<input id="company" name="company" type="text" placeholder="Company">
+
+<label for="enquiry_type">Enquiry Type</label>
+<select id="enquiry_type" name="enquiry_type" required>
+
+<option value="">-- Select Enquiry Type --</option>
+<option>General question</option>
+<option>Partnership</option>
+<option>Other</option>
+</select>
+<label for="message">Message</label>
+<textarea id="message" name="message" rows="6" placeholder="Your Message" required></textarea>
+<div class="form-actions">
+<button type="submit" class="apply-btn">Send Enquiry</button>
+<button type="reset" class="apply-btn alt">Clear</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+<p>&copy; 2025 Pathways to Careers. All rights reserved. ST10477674</p>
+</footer>
+<!--script for hamburger toggling-->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("WmLdPp8OkubMfMLIy"); 
+  })();
+</script>
+<script>
+  const ham = document.querySelector('.hamburger');
+  const links = document.querySelector('.nav-links');
+  ham.addEventListener('click', () => links.classList.toggle('show'));
+  ham.addEventListener('keypress', (e) => { if(e.key==='Enter') links.classList.toggle('show'); });
+</script>
+<script>
+  const ham = document.querySelector('.hamburger');
+  const links = document.querySelector('.nav-links');
+  ham.addEventListener('click', () => links.classList.toggle('show'));
+  ham.addEventListener('keypress', (e) => { if(e.key==='Enter') links.classList.toggle('show'); });
+
+  /*APPLICATION FORM*/
+  const applicationForm = document.getElementById("applicationForm");
+  applicationForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+  
+  /*Collect values*/
+  let name = document.getElementById("full_name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let phone = document.getElementById("phone").value.trim();
+  let interest = document.getElementById("interest").value;
+
+  /*Basic validation*/
+if (name === "" || email === "" || phone === "" || interest === "") {
+  alert("Please fill out all fields.");
+  return;
+}
+const appParams = {
+    full_name: name,
+    email: email,
+    phone: phone,
+    interest: interest
+};
+
+emailjs
+.send("service_txvqhv5", "template_agpjlht", appParams)
+.then(() => {
+    alert("Application submitted successfully! 🎉");
+    applicationForm.reset();
+})
+.catch((error) => {
+    alert("Something went wrong. Try again.");
+    console.error(error);
+   });
+});
+/*ENQUIRY FORM*/
+const enquiryForm = document.getElementById("enquiryForm");
+enquiryForm.addEventListener("submit", function(event) {
+event.preventDefault();
+
+  let name = document.getElementById("e_name").value.trim();
+  let email = document.getElementById("e_email").value.trim();
+  let phone = document.getElementById("e_phone").value.trim();
+  let company = document.getElementById("company").value.trim();
+  let enquiryType = document.getElementById("enquiry_type").value;
+  let message = document.getElementById("message").value.trim();
+
+if (name === "" || email === "" || enquiryType === "" || message === "") {
+  alert("Please fill in all required fields.");
+  return;
+}
+const enquiryParams = {
+  full_name: name,
+  email: email,
+  phone: phone,
+  company: company,
+  enquiry_type: enquiryType,
+  message: message
+};
+emailjs
+.send("service_txvqhv5", "template_i5vogxp", enquiryParams)
+.then(() => {
+    alert("Enquiry sent successfully!");
+    enquiryForm.reset();
+})
+.catch((error) => {
+    alert("Something went wrong. Try again.");
+    console.error(error);
+});
+});
+</script>
+</body>
+</html>
